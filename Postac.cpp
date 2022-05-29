@@ -56,73 +56,49 @@ int Postac::getHp() const {
     return HP;
 }
 
-void Postac::setHp(int hp) {
-    HP = hp;
-}
+
 
 int Postac::getMp() const {
     return MP;
 }
 
-void Postac::setMp(int mp) {
-    MP = mp;
-}
+
 
 int Postac::getAd() const {
     return AD;
 }
 
-void Postac::setAd(int ad) {
-    AD = ad;
-}
+
 
 int Postac::getAp() const {
     return AP;
 }
 
-void Postac::setAp(int ap) {
-    AP = ap;
-}
+
 
 int Postac::getMr() const {
     return MR;
 }
 
-void Postac::setMr(int mr) {
-    MR = mr;
-}
+
 
 int Postac::getArmor() const {
     return ARMOR;
 }
 
-void Postac::setArmor(int armor) {
-    ARMOR = armor;
-}
+
 
 int Postac::getDelay() const {
     return DELAY;
 }
 
-void Postac::setDelay(int haste) {
-    DELAY = haste;
-}
 
-float Postac::getAtbGauge() const {
-    return ATB_GAUGE;
-}
-
-void Postac::setAtbGauge(float atbGauge) {
-    ATB_GAUGE = atbGauge;
-}
 
 const string &Postac::getName() const {
     return NAME;
 }
 
-void Postac::setName(const string &name) {
-    Postac::NAME = name;
-}
+
 
 Postac::Postac(string name, int hp, int mp, int ad, int ap, int mr, int armor, int delay) {
     NAME = name;
@@ -135,7 +111,6 @@ Postac::Postac(string name, int hp, int mp, int ad, int ap, int mr, int armor, i
     MR = mr;
     ARMOR = armor;
     DELAY = delay;
-    ATB_GAUGE = 0;
     pokonany = false;
     turns_executed = 0;
 }
@@ -154,20 +129,4 @@ int Postac::getTurnsExecuted() const {
 
 void Postac::setTurnsExecuted(int turnsExecuted) {
     turns_executed = turnsExecuted;
-}
-
-int Postac::getBaseHp() const {
-    return baseHP;
-}
-
-void Postac::setBaseHp(int baseHp) {
-    baseHP = baseHp;
-}
-
-int Postac::getBaseMp() const {
-    return baseMP;
-}
-
-void Postac::setBaseMp(int baseMp) {
-    baseMP = baseMp;
 }

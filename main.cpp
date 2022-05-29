@@ -13,7 +13,7 @@ using namespace std;
 #define COLUMNS 8
 const string V_CUR = "  V  ";
 string siatka[ROWS][COLUMNS];
-Postac gracz("Light", 1000, 100, 100, 100, 100, 100, 7);
+Postac gracz("Light", 100, 100, 100, 100, 100, 100, 7);
 int seconds_passed = 0;
 bool is_end = false;
 vector<Postac> wrogowie;
@@ -22,6 +22,7 @@ string komunikat = "Start";
 string komunikatRDY = "   ";
 string timerWroga = "   ";
 int akcja = 0;
+int paradigm = 1;
 
 bool areAllDefated(vector<Postac> enemies) {
     for (int i = 0; i < enemies.size(); i++) {
@@ -111,7 +112,7 @@ void *updateScreen(void *hero) {
 
         siatka[0][vertical_cursor_position] = V_CUR;
 
-        switch (akcja) {
+        switch (paradigm) {
             case 1:
                 siatka[3][1] = "->ATAK";
                 siatka[4][1] = "  MAGIA";
@@ -149,13 +150,6 @@ void *updateScreen(void *hero) {
                 siatka[5][1] = "  LECZENIE";
                 siatka[6][1] = "  PANCERZ";
                 siatka[7][1] = "->ODPORNOŚĆ";
-            default:
-
-                siatka[3][1] = "  ATAK";
-                siatka[4][1] = "  MAGIA";
-                siatka[5][1] = "  LECZENIE";
-                siatka[6][1] = "  PANCERZ";
-                siatka[7][1] = "  ODPORNOŚĆ";
                 break;
         }
 
@@ -187,7 +181,7 @@ void *updateScreen(void *hero) {
             }
             cout << endl;
         }
-        usleep(50000);
+        usleep(50000);//0.05 sekundy
         system("clear");
     }
     return nullptr;
@@ -203,22 +197,16 @@ void *inputReader(void *hero) {
             vertical_cursor_position = 4;
         if (c == '3' && !is_dead(wrogowie[5 - 3]))
             vertical_cursor_position = 5;
-       /* if (c == 'q')
-            akcja = 1;
-        komunikatRDY = "   ";
+        if (c == 'q')
+            paradigm = 1;
         if (c == 'w')
-            akcja = 2;
-        komunikatRDY = "   ";
+            paradigm = 2;
         if (c == 'e')
-            akcja = 3;
-        komunikatRDY = "   ";
+            paradigm = 3;
         if (c == 'r')
-            akcja = 4;
-        komunikatRDY = "   ";
+            paradigm = 4;
         if (c == 't')
-            akcja = 5;
-        komunikatRDY = "   ";
-    }*/
+            paradigm = 5;
     }
     return nullptr;
 }
@@ -227,17 +215,11 @@ void *mainHero(void *hero) {
     while (!is_end) {
         komunikatRDY = to_string(gracz.getDelay() * (gracz.getTurnsExecuted() + 1) - seconds_passed);
         if (seconds_passed >= gracz.getDelay() * (gracz.getTurnsExecuted() + 1)) {
-            random_device dev;
-            mt19937 rng(dev());
-            uniform_int_distribution<std::mt19937::result_type> dist(1, 5);
-            uniform_int_distribution<std::mt19937::result_type> distWrog(3, 5);
             int nr_wroga;
-            akcja = dist(rng);
-            /*do {
-                vertical_cursor_position = distWrog(rng);*/
-                nr_wroga = vertical_cursor_position - 3;
-            /*} while (wrogowie[nr_wroga].getHp() <= 0);
-*/
+            akcja = paradigm;
+
+            nr_wroga = vertical_cursor_position - 3;
+
             gracz.setTurnsExecuted(gracz.getTurnsExecuted() + 1);
 
             switch (akcja) {
@@ -255,7 +237,17 @@ void *mainHero(void *hero) {
                     komunikat = gracz.atakuj(wrogowie[nr_wroga]);
                     wrogowie[nr_wroga].setPokonany(is_dead(wrogowie[nr_wroga]));
                     is_end = areAllDefated(wrogowie);
-
+                    if (is_dead(wrogowie[nr_wroga]) and !is_end){
+                        if (!is_dead(wrogowie[0])){
+                            vertical_cursor_position = 3;
+                        }else
+                        if (!is_dead(wrogowie[1])){
+                            vertical_cursor_position = 4;
+                        }else
+                        if (!is_dead(wrogowie[2])){
+                            vertical_cursor_position = 5;
+                        }
+                    }
                     break;
                 case 2:
 
@@ -276,13 +268,13 @@ void *mainHero(void *hero) {
 int main() {
 
 
-    Postac Bomb("Bomb", 1, 20, 150, 150, 20, 20, 20);
-    Postac Frajer("Es", 2, 20, 10, 10, 10, 10, 50);
-    Postac Kizers("Kizers", 100, 20, 10, 10, 10, 10, 55);
+    Postac Bahamut("Bahamut", 100, 20, 150, 150, 20, 20, 20);
+    Postac Anima("Anima", 100, 20, 10, 10, 10, 10, 15);
+    Postac Oprhan("Orphan", 100, 20, 10, 10, 10, 10, 10);
 
-    wrogowie.push_back(Bomb);
-    wrogowie.push_back(Frajer);
-    wrogowie.push_back(Kizers);
+    wrogowie.push_back(Bahamut);
+    wrogowie.push_back(Anima);
+    wrogowie.push_back(Oprhan);
     pthread_t input;
     pthread_t screen, timer, bohater, wrog1, wrog2, wrog3;
 
@@ -316,8 +308,10 @@ int main() {
         }
         if (!remis) {
             cout << "ZWYCIĘSTWO!!!" << endl;
-            getchar();
         }
     }
+
+
+
     return 0;
 }

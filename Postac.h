@@ -14,7 +14,6 @@ private:
     bool pokonany;
     int HP, MP, AD, AP, MR, ARMOR, DELAY, turns_executed;
     int baseHP, baseMP;
-    float ATB_GAUGE{};
     string NAME;
 
 public:
@@ -27,25 +26,15 @@ public:
     string zaslona_antymagiczna();
 
     int getHp() const;
-    void setHp(int hp);
 
     int getMp() const;
-    void setMp(int mp);
 
     int getAd() const;
-    void setAd(int ad);
-
     int getAp() const;
-    void setAp(int ap);
-
     int getMr() const;
-    void setMr(int mr);
 
     int getArmor() const;
-    void setArmor(int armor);
-
     int getDelay() const;
-    void setDelay(int haste);
 
     bool isPokonany() const;
 
@@ -55,19 +44,7 @@ public:
 
     void setTurnsExecuted(int turnsExecuted);
 
-    int getBaseHp() const;
-
-    void setBaseHp(int baseHp);
-
-    int getBaseMp() const;
-
-    void setBaseMp(int baseMp);
-
-    float getAtbGauge() const;
-    void setAtbGauge(float atbGauge);
-
     const string &getName() const;
-    void setName(const string &name);
 };
 
 
